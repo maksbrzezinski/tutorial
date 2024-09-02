@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Uploaded Files</h1>
+
+    <ul>
+        {% for file in files %}
+            <li>
+                <a href="/uploads/{{ file }}" target="_blank">{{ file }}</a>
+                <!-- Delete form for each file -->
+                <form action="{{ path('delete_file', {'filename': file}) }}" method="post" style="display:inline;" class="delete-form">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete_file' ~ file) }}">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </li>
+        {% else %}
+            <li>No files found.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('upload_file') }}" class="btn btn-primary">Upload another file</a>
+{% endblock %}
